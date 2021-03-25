@@ -30,10 +30,11 @@ const edgeColor = 'yellow';
 const foodColor = 'darksalmon';
 let foodX;
 let foodY;
-let vx = 10;
-let vy = 0;
+let dx = 10;
+let dy = 0;
 let score = 0;
 let time = 150;
+let stop = true;
 
 main();
 
@@ -89,18 +90,18 @@ function drawSnake() {
 }
 
 function moveSnake() {
-    const head = {
-        x: snake[0].x + vx,
-        y: snake[0].y + vy
-    };
-    snake.unshift(head);
-    const eating = snake[0].x === foodX && snake[0].y === foodY;
-    if (eating) {
-        score += 25 - time/10;
-        setFood();
-    } else {
-        snake.pop();
-    }
+        const head = {
+            x: snake[0].x + dx,
+            y: snake[0].y + dy
+        };
+        snake.unshift(head);
+        const eating = snake[0].x === foodX && snake[0].y === foodY;
+        if (eating) {
+            score += 25 - time/10;
+            setFood();
+        } else {
+            snake.pop();
+        }
 }
 
 document.addEventListener("keydown", changeDirection)
@@ -116,39 +117,62 @@ function changeDirection(key) {
     const s = 83;
     const f = 70;
     const enter = 13;
+    const e = 69;
+    const shift = 16;
+    const space = 32;
+    const p = 80;
+    const r = 82;
+    const ctrl = 17;
 
     const keyPressed = key.keyCode;
-    const moveUp = vy === -10;
-    const moveDown = vy === 10;
-    const moveRight = vx === 10;
-    const moveLeft = vx === -10;
+    const moveUp = dy === -10;
+    const moveDown = dy === 10;
+    const moveRight = dx === 10;
+    const moveLeft = dx === -10;
 
     if (keyPressed === left && !moveRight || keyPressed === a && !moveRight) {
-        vx = -10;
-        vy = 0;
+        dx = -10;
+        dy = 0;
     }
 
     if (keyPressed === up && !moveDown || keyPressed === w && !moveDown) {
-        vx = 0;
-        vy = -10;
+        dx = 0;
+        dy = -10;
     }
 
     if (keyPressed === right && !moveLeft || keyPressed === d && !moveLeft) {
-        vx = 10;
-        vy = 0;
+        dx = 10;
+        dy = 0;
     }
 
     if (keyPressed === down && !moveUp || keyPressed === s && !moveUp) {
-        vx = 0;
-        vy = 10;
+        dx = 0;
+        dy = 10;
     }
     if (keyPressed === f || keyPressed === enter) {
         time -= 10;
     }
+    if (keyPressed === e || keyPressed === shift) {
+        time += 10;
+    }
+    if (keyPressed === p || keyPressed === space) {
+        pause();
+    }
+    if (keyPressed === r || keyPressed === ctrl) {
+        location.reload();
+        return false;
+    }
 }
 
-document.getElementById("btn").addEventListener("click", function fast() {
+document.getElementById("fastbtn").addEventListener("click", function fast() {
     time -= 10;
+});
+document.getElementById("slowbtn").addEventListener("click", function slow() {
+    time += 10;
+});
+document.getElementById("again").addEventListener("click", function restart() {
+    location.reload();
+    return false;
 });
 
 function collision() {

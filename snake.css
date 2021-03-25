@@ -22,11 +22,11 @@
     background-color: chocolate;
 }
 
-#btn {
+#buttons {
     text-align: center;
 }
 
-#buton {
+.btn{
     color: white;
     background-color: darkcyan;
     border: 3px solid darkcyan;
