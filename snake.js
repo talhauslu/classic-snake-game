@@ -45,12 +45,22 @@ function main() {
 
     setTimeout(
         function onTick() {
-            setCanvas();
-            drawFood();
-            drawSnake();
-            moveSnake();
-            printScore();
-            main();
+            if (stop == true) {
+                setCanvas();
+                drawFood();
+                drawSnake();
+                printScore();
+                paused();
+                main();
+            }
+            else{
+                setCanvas();
+                drawFood();
+                drawSnake();
+                moveSnake();
+                printScore();
+                main();
+            }
         }, time);
 }
 
@@ -156,7 +166,12 @@ function changeDirection(key) {
         time += 10;
     }
     if (keyPressed === p || keyPressed === space) {
-        pause();
+        if (stop == true) {
+            stop = false;
+        } 
+        else {
+            stop = true;
+        }
     }
     if (keyPressed === r || keyPressed === ctrl) {
         location.reload();
@@ -164,6 +179,14 @@ function changeDirection(key) {
     }
 }
 
+document.getElementById("pause").addEventListener("click", function func() {
+    if (stop == true) {
+        stop = false;
+    } 
+    else {
+        stop = true;
+    }
+});
 document.getElementById("fastbtn").addEventListener("click", function fast() {
     time -= 10;
 });
@@ -215,4 +238,11 @@ function printScore() {
     game.fillStyle = "white"
     game.font = "20px Roboto"
     game.fillText("Score : "+ score, 380,40);
+}
+
+function paused() {
+    game.fillStyle = "white"
+    game.font = "25px Roboto"
+    game.textAlign = "center"
+    game.fillText("Press P or Space to start to the game",gameArea.width/2,gameArea.height/2);
 }
